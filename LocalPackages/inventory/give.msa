@@ -1,30 +1,24 @@
 *:/i $ = >>>
-    assign(@p, player())
-    if (has_permission(@p, 'SurvivalPlus.give')) {
-        assign(@a, _parseiargs($))
-        if(equals(@a, null),
-            msg(concat(color(gray), 'Usage: /i <itemid>[:metadata] [quantity]')),
-        #else:
-            pgive_item(concat(@a[0], ':', @a[1]), @a[2])
-            msg(concat(color(gray), 'Giving ', @a[2], ' of ', data_name(@a[0]))))
-    } else {
-        msg(color(red), 'You do not have permission to run this command.')
-    }
+    _haspermission('give')
+
+    assign(@a, _parseiargs($))
+    if(equals(@a, null),
+        msg(concat(color(gray), 'Usage: /i <itemid>[:metadata] [quantity]')),
+    #else:
+        pgive_item(concat(@a[0], ':', @a[1]), @a[2])
+        msg(concat(color(gray), 'Giving ', @a[2], ' of ', data_name(@a[0]))))
 <<<
 
 *:/give $player $ = >>>
-    assign(@p, player())
-    if (has_permission(@p, 'SurvivalPlus.give')) {
-        assign(@a, _parseiargs($))
-        if(equals(@a, null),
-            msg(concat(color(gray), 'Usage: /give <player> <itemid>[:metadata] [quantity]')),
-        #else:
-            try(
-                pgive_item(_getonlinename($player), concat(@a[0], ':', @a[1]), @a[2])
-                msg(concat(color(gray), 'Giving ', @a[2], ' of ', data_name(@a[0]), ' to ', $player)),
-            @e,
-                msg(concat(color(red), 'Player not found!'))))
-    } else {
-        msg(color(red), 'You do not have permission to run this command')
-    }
+    _haspermission('give')
+
+    assign(@a, _parseiargs($))
+    if(equals(@a, null),
+        msg(concat(color(gray), 'Usage: /give <player> <itemid>[:metadata] [quantity]')),
+    #else:
+        try(
+            pgive_item(_getonlinename($player), concat(@a[0], ':', @a[1]), @a[2])
+            msg(concat(color(gray), 'Giving ', @a[2], ' of ', data_name(@a[0]), ' to ', $player)),
+        @e,
+            msg(concat(color(red), 'Player not found!'))))
 <<<
